@@ -211,7 +211,7 @@ void G30esliROS::receiveStatus(const double& steering_offset_deg)
   vehicle_status_.brakepedal = status_.status.override.brake;  // [-]
 
   // angle
-  vehicle_status_.angle = -status_.status.steer.actual - steering_offset_deg;  // [deg]
+  vehicle_status_.angle = (-status_.status.steer.actual - steering_offset_deg) * M_PI / 180.0;  // [deg] -> [rad]
 
   // lamp
   if (status_.status.override.flasher == G30ESLI_FLASHER_NONE)
