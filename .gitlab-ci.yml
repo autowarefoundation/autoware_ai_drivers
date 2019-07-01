@@ -1,7 +1,7 @@
 stages:
   - build
   - deploy
-  
+
 variables:
   CI_SOURCE_PATH: $CI_PROJECT_DIR
   GIT_SUBMODULE_STRATEGY: recursive
@@ -15,7 +15,7 @@ variables:
     # Update setuptools from PyPI because the version Ubuntu ships with is too old
     - pip3 install -U setuptools
     - vcs validate < $VCS_FILE
-    - vcs import src/ < $VCS_FILE 
+    - vcs import src/ < $VCS_FILE
     - rosdep update
     - rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
   coverage: /\s*lines.*:\s(\d+\.\d+\%\s\(\d+\sof\s\d+.*\))/
@@ -52,7 +52,6 @@ variables:
                     --merge-install
                     --build-base ${AUTOWARE_BUILD_PATH}
                     --install-base ${AUTOWARE_INSTALL_PATH}
-                    --packages-skip ymc
                     --cmake-args
                     -DCMAKE_TOOLCHAIN_FILE=${AUTOWARE_TOOLCHAIN_FILE_PATH}
                     -DCMAKE_SYSTEM_PROCESSOR=${AUTOWARE_TARGET_ARCH}
@@ -75,7 +74,7 @@ build_kinetic:
     - git clone https://github.com/linux-test-project/lcov.git
     - cd lcov
     - git checkout v1.13
-    - make install 
+    - make install
     - cd ..
     - rm -r lcov
     # We first build the entire workspace normally
@@ -99,7 +98,7 @@ build_kinetic:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/coverage.tar.gz
-    expire_in: 48 hrs 
+    expire_in: 48 hrs
 
 build_melodic:
   stage: build
@@ -130,8 +129,8 @@ build_melodic:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/coverage.tar.gz
-    expire_in: 48 hrs 
-    
+    expire_in: 48 hrs
+
 build_kinetic_cross:
   stage: build
   image: docker
