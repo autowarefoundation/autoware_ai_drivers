@@ -90,7 +90,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES test_py
-  CATKIN_DEPENDS rospy roscpp std_msgs sensor_msgs message_generation message_runtime 
+  CATKIN_DEPENDS rospy roscpp std_msgs sensor_msgs message_runtime 
 #  DEPENDS system_lib
 )
 
