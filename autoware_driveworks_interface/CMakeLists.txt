@@ -44,7 +44,6 @@ if ("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "aarch64"
     include_directories(
             include
             ${catkin_INCLUDE_DIRS}
-            ${autoware_msgs_INCLUDE_DIRS}
             ${Boost_INCLUDE_DIRS}
             ${OpenCV_INCLUDE_DIRS}
     )
