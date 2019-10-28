@@ -7,7 +7,7 @@
   <author email="aohsato@gmail.com">Akihito Ohsato</author>
   <author email="antm678@ertl.jp">T.Ando</author>
   <license>Apache 2</license>
-  
+
   <buildtool_depend>autoware_build_flags</buildtool_depend>
   <buildtool_depend>catkin</buildtool_depend>
 
@@ -17,6 +17,7 @@
   <depend>rosconsole</depend>
   <depend>roscpp</depend>
   <depend>std_msgs</depend>
+  <depend>ros_observer</depend>  
 
   <exec_depend>can-utils</exec_depend>
 </package>

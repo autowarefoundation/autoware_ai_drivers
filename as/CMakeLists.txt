@@ -12,6 +12,7 @@ find_package(
   automotive_navigation_msgs
   pacmod_msgs
   autoware_msgs
+  ros_observer
 )
 
 catkin_package(

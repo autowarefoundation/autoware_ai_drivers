@@ -15,6 +15,7 @@
  */
 
 #include "g30esli_interface.h"
+#include <ros_observer/lib_ros_observer.h>
 
 G30esliInterface::G30esliInterface() : nh_(), private_nh_("~")
 {
@@ -221,8 +222,13 @@ void G30esliInterface::run()
   thread_read_keyboard_ = new std::thread(&G30esliInterface::readKeyboard, this);
   thread_publish_status_ = new std::thread(&G30esliInterface::publishStatus, this);
 
-  ros::Rate rate(100);
+  double loop_rate = 100;
 
+  ShmVitalMonitor shm_YMCvmon("YMC_VehicleDriver", loop_rate);
+  ShmVitalMonitor shm_ROvmon("RosObserver", loop_rate);
+  ShmVitalMonitor shm_HAvmon("HealthAggregator", loop_rate);
+
+  ros::Rate rate(loop_rate);
   while (ros::ok())
   {
     const MODE& mode = mode_;
@@ -238,6 +244,13 @@ void G30esliInterface::run()
       g30esli_ros_.emergencyStop(mode);
     }
 
+    // check module erorr status
+    if (shm_ROvmon.is_error_detected() || shm_HAvmon.is_error_detected() )
+    {
+      ROS_ERROR("Emergency stop by error detection of emergency module");
+      g30esli_ros_.emergencyStop(mode);
+     }
+
     // reset speed command when restarting
     g30esli_ros_.checkRestart(mode);
 
@@ -246,6 +259,8 @@ void G30esliInterface::run()
 
     // update heart beat
     g30esli_ros_.updateAliveCounter();
+
+    shm_YMCvmon.run();
 
     // debug
     ROS_DEBUG("\n%s", g30esli_ros_.dumpDebug(mode).c_str());
