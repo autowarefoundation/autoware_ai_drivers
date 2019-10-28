@@ -15,6 +15,7 @@
  */
 
 #include "ssc_interface.h"
+#include <ros_observer/lib_ros_observer.h>
 
 SSCInterface::SSCInterface() : nh_(), private_nh_("~"), engage_(false), command_initialized_(false)
 {
@@ -79,10 +80,23 @@ SSCInterface::~SSCInterface()
 
 void SSCInterface::run()
 {
+  ShmVitalMonitor shm_ASvmon("AS_VehicleDriver", loop_rate_);
+  ShmVitalMonitor shm_ROvmon("RosObserver", loop_rate_);
+  ShmVitalMonitor shm_HAvmon("HealthAggregator", loop_rate_);
+
   while (ros::ok())
   {
     ros::spinOnce();
+
+    shm_ASvmon.run();
+
+    if (shm_ROvmon.is_error_detected() || shm_HAvmon.is_error_detected()){
+      ROS_ERROR("Emergency stop by error detection of emergency module");
+      vehicle_cmd_.emergency = 1;
+    }
+
     publishCommand();
+
     rate_->sleep();
   }
 }

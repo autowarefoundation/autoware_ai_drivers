@@ -9,6 +9,7 @@ find_package(
   rosconsole
   autoware_msgs
   ds4_msgs
+  ros_observer
 )
 
 catkin_package(
