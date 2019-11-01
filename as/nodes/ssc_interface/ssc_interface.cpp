@@ -51,7 +51,7 @@ SSCInterface::SSCInterface() : nh_(), private_nh_("~"), engage_(false), command_
   gear_feedback_sub_ =
       new message_filters::Subscriber<automotive_platform_msgs::GearFeedback>(nh_, "as/gear_feedback", 10);
   velocity_accel_sub_ =
-      new message_filters::Subscriber<automotive_platform_msgs::VelocityAccel>(nh_, "as/velocity_accel", 10);
+      new message_filters::Subscriber<automotive_platform_msgs::VelocityAccelCov>(nh_, "as/velocity_accel_cov", 10);
   // subscribers from PACMod
   wheel_speed_sub_ =
       new message_filters::Subscriber<pacmod_msgs::WheelSpeedRpt>(nh_, "pacmod/parsed_tx/wheel_speed_rpt", 10);
@@ -121,7 +121,7 @@ void SSCInterface::callbackFromSSCModuleStates(const automotive_navigation_msgs:
   }
 }
 
-void SSCInterface::callbackFromSSCFeedbacks(const automotive_platform_msgs::VelocityAccelConstPtr& msg_velocity,
+void SSCInterface::callbackFromSSCFeedbacks(const automotive_platform_msgs::VelocityAccelCovConstPtr& msg_velocity,
                                             const automotive_platform_msgs::CurvatureFeedbackConstPtr& msg_curvature,
                                             const automotive_platform_msgs::ThrottleFeedbackConstPtr& msg_throttle,
                                             const automotive_platform_msgs::BrakeFeedbackConstPtr& msg_brake,
