@@ -40,19 +40,19 @@ SSCInterface::SSCInterface() : nh_(), private_nh_("~"), engage_(false), command_
   engage_sub_ = nh_.subscribe("vehicle/engage", 1, &SSCInterface::callbackFromEngage, this);
 
   // subscribers from SSC
-  module_states_sub_ = nh_.subscribe("as/module_states", 1, &SSCInterface::callbackFromSSCModuleStates, this);
+  module_states_sub_ = nh_.subscribe("ssc/module_states", 1, &SSCInterface::callbackFromSSCModuleStates, this);
   curvature_feedback_sub_ =
-      new message_filters::Subscriber<automotive_platform_msgs::CurvatureFeedback>(nh_, "as/curvature_feedback", 10);
+      new message_filters::Subscriber<automotive_platform_msgs::CurvatureFeedback>(nh_, "ssc/curvature_feedback", 10);
   throttle_feedback_sub_ =
-      new message_filters::Subscriber<automotive_platform_msgs::ThrottleFeedback>(nh_, "as/throttle_feedback", 10);
+      new message_filters::Subscriber<automotive_platform_msgs::ThrottleFeedback>(nh_, "ssc/throttle_feedback", 10);
   brake_feedback_sub_ =
-      new message_filters::Subscriber<automotive_platform_msgs::BrakeFeedback>(nh_, "as/brake_feedback", 10);
+      new message_filters::Subscriber<automotive_platform_msgs::BrakeFeedback>(nh_, "ssc/brake_feedback", 10);
   gear_feedback_sub_ =
-      new message_filters::Subscriber<automotive_platform_msgs::GearFeedback>(nh_, "as/gear_feedback", 10);
+      new message_filters::Subscriber<automotive_platform_msgs::GearFeedback>(nh_, "ssc/gear_feedback", 10);
   velocity_accel_sub_ =
-      new message_filters::Subscriber<automotive_platform_msgs::VelocityAccelCov>(nh_, "as/velocity_accel_cov", 10);
+      new message_filters::Subscriber<automotive_platform_msgs::VelocityAccelCov>(nh_, "ssc/velocity_accel_cov", 10);
   steering_wheel_sub_ =
-      new message_filters::Subscriber<automotive_platform_msgs::SteeringFeedback>(nh_, "as/steering_feedback", 10);
+      new message_filters::Subscriber<automotive_platform_msgs::SteeringFeedback>(nh_, "ssc/steering_feedback", 10);
   ssc_feedbacks_sync_ = new message_filters::Synchronizer<SSCFeedbacksSyncPolicy>(
       SSCFeedbacksSyncPolicy(10), *velocity_accel_sub_, *curvature_feedback_sub_, *throttle_feedback_sub_,
       *brake_feedback_sub_, *gear_feedback_sub_, *steering_wheel_sub_);
@@ -64,10 +64,10 @@ SSCInterface::SSCInterface() : nh_(), private_nh_("~"), engage_(false), command_
   current_twist_pub_ = nh_.advertise<geometry_msgs::TwistStamped>("vehicle/twist", 10);
 
   // publishers to SSC
-  steer_mode_pub_ = nh_.advertise<automotive_platform_msgs::SteerMode>("as/arbitrated_steering_commands", 10);
-  speed_mode_pub_ = nh_.advertise<automotive_platform_msgs::SpeedMode>("as/arbitrated_speed_commands", 10);
-  turn_signal_pub_ = nh_.advertise<automotive_platform_msgs::TurnSignalCommand>("as/turn_signal_command", 10);
-  gear_pub_ = nh_.advertise<automotive_platform_msgs::GearCommand>("as/gear_select", 1, true);
+  steer_mode_pub_ = nh_.advertise<automotive_platform_msgs::SteerMode>("ssc/arbitrated_steering_commands", 10);
+  speed_mode_pub_ = nh_.advertise<automotive_platform_msgs::SpeedMode>("ssc/arbitrated_speed_commands", 10);
+  turn_signal_pub_ = nh_.advertise<automotive_platform_msgs::TurnSignalCommand>("ssc/turn_signal_command", 10);
+  gear_pub_ = nh_.advertise<automotive_platform_msgs::GearCommand>("ssc/gear_select", 1, true);
 }
 
 SSCInterface::~SSCInterface()
