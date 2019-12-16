@@ -7,7 +7,6 @@
     used only with the MTdata2 format.
   </description>
   <maintainer email="tfoote@osrfoundation.org">Tully Foote</maintainer>
-  <url>http://ros.org/wiki/sensor_msgs</url>
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
@@ -15,14 +14,12 @@
   <build_depend>message_generation</build_depend>
 
   <depend>geometry_msgs</depend>
-  <depend>roscpp</depend>
-  <depend>rospy</depend>
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
 
   <exec_depend>message_runtime</exec_depend>
   
   <export>
-    <architecture_independent/>
+    <architecture_independent />
   </export>
 </package>

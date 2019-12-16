@@ -12,15 +12,14 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>roslint</build_depend>
-  <build_depend>sensor_msgs</build_depend>
 
   <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
 
   <exec_depend>imu_filter_madgwick</exec_depend>
   <exec_depend>imu_tools</exec_depend>
   <exec_depend>rqt_plot</exec_depend>
   <exec_depend>rviz</exec_depend>
-  <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>xacro</exec_depend>
 
   <test_depend>roslaunch</test_depend>

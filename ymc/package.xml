@@ -14,10 +14,10 @@
   <depend>autoware_msgs</depend>
   <depend>ds4_msgs</depend>
   <depend>geometry_msgs</depend>
+  <depend>ros_observer</depend>  
   <depend>rosconsole</depend>
   <depend>roscpp</depend>
   <depend>std_msgs</depend>
-  <depend>ros_observer</depend>  
 
   <exec_depend>can-utils</exec_depend>
 </package>
