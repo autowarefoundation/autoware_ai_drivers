@@ -1,29 +1,20 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(as)
 
+find_package(autoware_build_flags REQUIRED)
 find_package(
   catkin REQUIRED COMPONENTS
-  autoware_build_flags
-  roscpp
-  message_filters
-  std_msgs
-  geometry_msgs
-  automotive_platform_msgs
   automotive_navigation_msgs
+  automotive_platform_msgs
   autoware_msgs
+  geometry_msgs
+  message_filters
   ros_observer
+  roscpp
+  std_msgs
 )
 
-catkin_package(
-  CATKIN_DEPENDS
-  roscpp
-  message_filters
-  std_msgs
-  geometry_msgs
-  automotive_platform_msgs
-  automotive_navigation_msgs
-  autoware_msgs
-)
+catkin_package()
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
