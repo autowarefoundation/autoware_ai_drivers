@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-#ifndef SSC_INTERFACE_H
-#define SSC_INTERFACE_H
+#ifndef AS_SSC_INTERFACE_H
+#define AS_SSC_INTERFACE_H
+
+#include <string>
 
 #include <ros/ros.h>
 #include <std_msgs/Bool.h>
@@ -38,7 +40,6 @@
 #include <automotive_navigation_msgs/ModuleState.h>
 #include <automotive_platform_msgs/SteeringFeedback.h>
 
-
 #include <autoware_msgs/VehicleCmd.h>
 #include <autoware_msgs/VehicleStatus.h>
 
@@ -48,7 +49,6 @@ class SSCInterface
 {
 public:
   SSCInterface();
-  ~SSCInterface();
 
   void run();
 
@@ -126,4 +126,4 @@ private:
   void publishCommand();
 };
 
-#endif  // SSC_INTERFACE_H
+#endif  // AS_SSC_INTERFACE_H
