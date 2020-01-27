@@ -16,7 +16,7 @@
 
 #include <ros/ros.h>
 
-#include "ssc_interface.h"
+#include "as/ssc_interface.h"
 
 int main(int argc, char** argv)
 {

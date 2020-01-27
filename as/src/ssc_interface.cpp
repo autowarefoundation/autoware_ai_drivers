@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-#include "ssc_interface.h"
+#include <algorithm>
+#include <string>
+
+#include "as/ssc_interface.h"
 #include <ros_observer/lib_ros_observer.h>
 
 SSCInterface::SSCInterface() : nh_(), private_nh_("~"), engage_(false), command_initialized_(false)
@@ -70,10 +73,6 @@ SSCInterface::SSCInterface() : nh_(), private_nh_("~"), engage_(false), command_
   gear_pub_ = nh_.advertise<automotive_platform_msgs::GearCommand>("ssc/gear_select", 1, true);
 }
 
-SSCInterface::~SSCInterface()
-{
-}
-
 void SSCInterface::run()
 {
   ShmVitalMonitor shm_ASvmon("AS_VehicleDriver", loop_rate_);
@@ -86,7 +85,8 @@ void SSCInterface::run()
 
     shm_ASvmon.run();
 
-    if (shm_ROvmon.is_error_detected() || shm_HAvmon.is_error_detected()){
+    if (shm_ROvmon.is_error_detected() || shm_HAvmon.is_error_detected())
+    {
       ROS_ERROR("Emergency stop by error detection of emergency module");
       vehicle_cmd_.emergency = 1;
     }
@@ -117,18 +117,20 @@ void SSCInterface::callbackFromSSCModuleStates(const automotive_navigation_msgs:
   }
 }
 
-void SSCInterface::callbackFromSSCFeedbacks(const automotive_platform_msgs::VelocityAccelCovConstPtr& msg_velocity,
-                                            const automotive_platform_msgs::CurvatureFeedbackConstPtr& msg_curvature,
-                                            const automotive_platform_msgs::ThrottleFeedbackConstPtr& msg_throttle,
-                                            const automotive_platform_msgs::BrakeFeedbackConstPtr& msg_brake,
-                                            const automotive_platform_msgs::GearFeedbackConstPtr& msg_gear,
-                                            const automotive_platform_msgs::SteeringFeedbackConstPtr& msg_steering_wheel)
+void SSCInterface::callbackFromSSCFeedbacks(
+  const automotive_platform_msgs::VelocityAccelCovConstPtr& msg_velocity,
+  const automotive_platform_msgs::CurvatureFeedbackConstPtr& msg_curvature,
+  const automotive_platform_msgs::ThrottleFeedbackConstPtr& msg_throttle,
+  const automotive_platform_msgs::BrakeFeedbackConstPtr& msg_brake,
+  const automotive_platform_msgs::GearFeedbackConstPtr& msg_gear,
+  const automotive_platform_msgs::SteeringFeedbackConstPtr& msg_steering_wheel)
 {
   ros::Time stamp = msg_velocity->header.stamp;
 
   // update adaptive gear ratio (avoiding zero divizion)
   adaptive_gear_ratio_ =
-    std::max(1e-5, agr_coef_a_ + agr_coef_b_ * msg_velocity->velocity * msg_velocity->velocity - agr_coef_c_ * msg_steering_wheel->steering_wheel_angle);
+    std::max(1e-5, agr_coef_a_ + agr_coef_b_ * msg_velocity->velocity *
+      msg_velocity->velocity - agr_coef_c_ * msg_steering_wheel->steering_wheel_angle);
   // current steering curvature
   double curvature = !use_adaptive_gear_ratio_ ?
                          (msg_curvature->curvature) :
@@ -156,8 +158,8 @@ void SSCInterface::callbackFromSSCFeedbacks(const automotive_platform_msgs::Velo
   vehicle_status.speed = msg_velocity->velocity * 3.6;
 
   // drive/brake pedal [0,1000] (TODO: Scaling)
-  vehicle_status.drivepedal = (int)(1000 * msg_throttle->throttle_pedal);
-  vehicle_status.brakepedal = (int)(1000 * msg_brake->brake_pedal);
+  vehicle_status.drivepedal = static_cast<int>(1000 * msg_throttle->throttle_pedal);
+  vehicle_status.brakepedal = static_cast<int>(1000 * msg_brake->brake_pedal);
 
   // steering angle [rad]
   vehicle_status.angle = std::atan(curvature * wheel_base_);

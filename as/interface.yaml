@@ -1,4 +1,4 @@
 - name: /ssc_interface
-  publish: [/as/arbitrated_steering_commands, /as/arbitrated_speed_commands,
+  publish: [/ssc/arbitrated_steering_commands, /ssc/arbitrated_speed_commands,
     /vehicle/twist]
-  subscribe: [/vehicle_cmd, /vehicle/engage, /as/steering_feedback]
+  subscribe: [/vehicle_cmd, /vehicle/engage, /ssc/steering_feedback]
