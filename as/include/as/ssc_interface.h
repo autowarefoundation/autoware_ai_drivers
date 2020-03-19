@@ -92,6 +92,7 @@ private:
   double max_curvature_rate_;  // [rad/m/s]
 
   bool use_adaptive_gear_ratio_;  // for more accurate steering angle (gr = theta_sw / theta_s)
+  bool enable_reverse_motion_;    // flag to change gear for backward driving
   double tire_radius_;            // [m] (NOTE: used by 'use_rear_wheel_speed' mode)
   double ssc_gear_ratio_;         // gr = const (NOTE: used by 'use_adaptive_gear_ratio' mode)
   double agr_coef_a_, agr_coef_b_, agr_coef_c_;  // gr = a + b * speed^2 + c * theta_sw
