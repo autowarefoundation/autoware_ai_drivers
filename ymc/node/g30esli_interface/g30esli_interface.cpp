@@ -22,6 +22,7 @@ G30esliInterface::G30esliInterface() : nh_(), private_nh_("~")
   // rosparam
   private_nh_.param<std::string>("device", device_, "can0");
   private_nh_.param<bool>("use_ds4", use_ds4_, false);
+  private_nh_.param<bool>("enable_reverse_motion", enable_reverse_motion_, false);
   private_nh_.param<double>("steering_offset_deg", steering_offset_deg_, 0.0);
   private_nh_.param<double>("command_timeout", command_timeout_, 1000);
   private_nh_.param<double>("brake_threshold", brake_threshold_, 0.1);
@@ -68,6 +69,11 @@ G30esliInterface::~G30esliInterface()
 // generate command by autoware
 void G30esliInterface::vehicleCmdCallback(const autoware_msgs::VehicleCmdConstPtr& msg)
 {
+  if (!enable_reverse_motion_ && msg->ctrl_cmd.linear_velocity < 0)
+  {
+    ROS_WARN("Command velocity is negative, but enable reverse motion is false...");
+    return;
+  }
   g30esli_ros_.updateAutoCommand(*msg, engage_, steering_offset_deg_, brake_threshold_);
 }
 

@@ -2,6 +2,7 @@
 <launch>
 
   <arg name="use_adaptive_gear_ratio" default="true"/>
+  <arg name="enable_reverse_motion" default="false"/>
   <arg name="command_timeout" default="1000"/>
   <arg name="loop_rate" default="30.0"/>
   <arg name="wheel_base" default="2.79"/>
@@ -12,6 +13,7 @@
 
   <node pkg="as" type="ssc_interface" name="ssc_interface" output="screen">
     <param name="use_adaptive_gear_ratio" value="$(arg use_adaptive_gear_ratio)" />
+    <param name="enable_reverse_motion" value="$(arg enable_reverse_motion)" />
     <param name="command_timeout" value="$(arg command_timeout)" />
     <param name="loop_rate" value="$(arg loop_rate)" />
     <param name="wheel_base" value="$(arg wheel_base)" />
