@@ -67,13 +67,13 @@ private:
   ros::Subscriber vehicle_cmd_sub_;
   ros::Subscriber engage_sub_;
   ros::Subscriber module_states_sub_;
-  message_filters::Subscriber<automotive_platform_msgs::VelocityAccelCov>* velocity_accel_sub_;
-  message_filters::Subscriber<automotive_platform_msgs::CurvatureFeedback>* curvature_feedback_sub_;
-  message_filters::Subscriber<automotive_platform_msgs::ThrottleFeedback>* throttle_feedback_sub_;
-  message_filters::Subscriber<automotive_platform_msgs::BrakeFeedback>* brake_feedback_sub_;
-  message_filters::Subscriber<automotive_platform_msgs::GearFeedback>* gear_feedback_sub_;
-  message_filters::Subscriber<automotive_platform_msgs::SteeringFeedback>* steering_wheel_sub_;
-  message_filters::Synchronizer<SSCFeedbacksSyncPolicy>* ssc_feedbacks_sync_;
+  message_filters::Subscriber<automotive_platform_msgs::VelocityAccelCov> velocity_accel_sub_;
+  message_filters::Subscriber<automotive_platform_msgs::CurvatureFeedback> curvature_feedback_sub_;
+  message_filters::Subscriber<automotive_platform_msgs::ThrottleFeedback> throttle_feedback_sub_;
+  message_filters::Subscriber<automotive_platform_msgs::BrakeFeedback> brake_feedback_sub_;
+  message_filters::Subscriber<automotive_platform_msgs::GearFeedback> gear_feedback_sub_;
+  message_filters::Subscriber<automotive_platform_msgs::SteeringFeedback> steering_wheel_sub_;
+  std::unique_ptr<message_filters::Synchronizer<SSCFeedbacksSyncPolicy>> ssc_feedbacks_sync_;
 
   // publishers
   ros::Publisher steer_mode_pub_;
@@ -111,7 +111,6 @@ private:
   ros::Time command_time_;
   autoware_msgs::VehicleCmd vehicle_cmd_;
   automotive_navigation_msgs::ModuleState module_states_;
-  ros::Rate* rate_;
 
   // callbacks
   void callbackFromVehicleCmd(const autoware_msgs::VehicleCmdConstPtr& msg);
